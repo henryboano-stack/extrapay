@@ -1,0 +1,595 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#071b35">
+  <title>EXTRAPAY | Painel do Cliente</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --navy: #071b35;
+      --navy2: #102b4e;
+      --green: #13b981;
+      --gold: #f4bd45;
+      --light: #f3f6fa;
+      --white: #fff;
+      --text: #172b45;
+      --muted: #718096;
+      --border: #e5eaf0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--light);
+      color: var(--text);
+    }
+
+    header {
+      background: var(--navy);
+      color: white;
+      padding: 17px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .logo span {
+      color: var(--green);
+    }
+
+    .logout {
+      background: #ffffff17;
+      border: 1px solid #ffffff50;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 28px 18px 50px;
+    }
+
+    .welcome {
+      background: linear-gradient(120deg, #071b35, #153d65);
+      color: white;
+      padding: 28px;
+      border-radius: 17px;
+      margin-bottom: 25px;
+    }
+
+    .welcome small {
+      color: #b9c8dc;
+    }
+
+    .welcome h1 {
+      font-size: 27px;
+      margin: 10px 0;
+    }
+
+    .welcome p {
+      color: #c7d3e2;
+      line-height: 1.6;
+    }
+
+    .section-title {
+      font-size: 20px;
+      color: var(--navy);
+      margin: 30px 0 15px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      padding: 21px;
+      border-radius: 14px;
+      box-shadow: 0 4px 15px #071b3508;
+    }
+
+    .card-icon {
+      font-size: 30px;
+      margin-bottom: 13px;
+    }
+
+    .card h3 {
+      font-size: 16px;
+      color: var(--navy);
+      margin-bottom: 9px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .profile-card {
+      background: white;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+
+    .profile-row {
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .profile-row:last-child {
+      border-bottom: none;
+    }
+
+    .profile-row small {
+      display: block;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .profile-row strong {
+      overflow-wrap: anywhere;
+    }
+
+    .referral {
+      background: #e8fff5;
+      border: 1px solid #b7f0d8;
+      padding: 20px;
+      border-radius: 14px;
+      margin-top: 18px;
+    }
+
+    .referral h3 {
+      color: #087443;
+      margin-bottom: 8px;
+    }
+
+    .referral p {
+      color: #376a56;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .code-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 13px;
+    }
+
+    .code {
+      background: white;
+      border: 1px dashed #13b981;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      flex: 1;
+      overflow-wrap: anywhere;
+    }
+
+    .copy {
+      border: none;
+      background: var(--green);
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .service {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .service h3 {
+      color: var(--navy);
+      margin-bottom: 9px;
+    }
+
+    .service p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .price {
+      font-weight: bold;
+      color: #087443;
+    }
+
+    .empty {
+      background: white;
+      border: 1px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 22px;
+      color: var(--muted);
+      text-align: center;
+      grid-column: 1 / -1;
+      line-height: 1.6;
+    }
+
+    .status {
+      margin-top: 15px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .error {
+      color: #b42318;
+    }
+
+    footer {
+      background: var(--navy);
+      color: #b9c8dc;
+      text-align: center;
+      padding: 23px 15px;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 750px) {
+      .grid, .services {
+        grid-template-columns: 1fr;
+      }
+
+      .welcome h1 {
+        font-size: 23px;
+      }
+
+      .code-line {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">EXTRA<span>PAY</span></div>
+  <button class="logout" id="logoutBtn">Terminar sessão</button>
+</header>
+
+<main>
+
+  <section class="welcome">
+    <small>ÁREA DO CLIENTE</small>
+    <h1>Olá, <span id="customerName">Cliente</span>!</h1>
+    <p>
+      Bem-vindo ao seu painel EXTRAPAY.
+      Aqui pode consultar os seus dados e explorar os produtos
+      e serviços disponíveis.
+    </p>
+  </section>
+
+  <h2 class="section-title">Resumo da sua conta</h2>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-icon">👤</div>
+      <h3>Minha conta</h3>
+      <p>Consulte os seus dados pessoais e informações de registo.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🛍️</div>
+      <h3>Produtos e serviços</h3>
+      <p>Consulte o catálogo e as condições comerciais disponíveis.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🤝</div>
+      <h3>Convites</h3>
+      <p>Consulte o seu código de convite e partilhe-o com outras pessoas.</p>
+    </div>
+  </div>
+
+  <h2 class="section-title">Os meus dados</h2>
+
+  <div class="profile-card">
+    <div class="profile-row">
+      <small>Nome completo</small>
+      <strong id="profileName">A carregar...</strong>
+    </div>
+
+    <div class="profile-row">
+      <small>Número de telefone</small>
+      <strong id="profilePhone">A carregar...</strong>
+    </div>
+
+    <div class="profile-row">
+      <small>Data de registo</small>
+      <strong id="profileDate">A carregar...</strong>
+    </div>
+
+    <div class="referral">
+      <h3>O seu código de convite</h3>
+      <p>
+        Pode partilhar este código para identificar
+        os clientes que se registarem através do seu convite.
+      </p>
+
+      <div class="code-line">
+        <div class="code" id="referralCode">A carregar...</div>
+        <button class="copy" id="copyBtn">Copiar</button>
+      </div>
+    </div>
+
+    <div id="profileStatus" class="status">
+      A carregar os dados da sua conta...
+    </div>
+  </div>
+
+  <h2 class="section-title">Produtos e serviços disponíveis</h2>
+
+  <div class="services" id="servicesList">
+    <div class="empty">A carregar catálogo...</div>
+  </div>
+
+  <div id="servicesStatus" class="status"></div>
+
+</main>
+
+<footer>
+  <strong>EXTRAPAY</strong><br>
+  Extra Income. More Opportunities.<br>
+  © <span id="year"></span> EXTRAPAY. Todos os direitos reservados.
+</footer>
+
+<script>
+  // LIGAÇÃO AO SUPABASE
+
+  const SUPABASE_URL =
+    "https://cypuvaynypppvyuchghb.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_51-sjpu4VSt4SFa2ZgnoFw_Er-MdvOd";
+
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+  document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+  let currentUser = null;
+  let currentProfile = null;
+
+  function showStatus(id, message, isError = false) {
+    const element = document.getElementById(id);
+    element.textContent = message;
+    element.classList.toggle("error", isError);
+  }
+
+  // PROTEGER O PAINEL
+
+  async function loadDashboard() {
+    const { data: sessionData, error: sessionError } =
+      await supabaseClient.auth.getSession();
+
+    if (sessionError || !sessionData.session) {
+      window.location.replace("cliente.html");
+      return;
+    }
+
+    const { data: userData, error: userError } =
+      await supabaseClient.auth.getUser();
+
+    if (userError || !userData.user) {
+      await supabaseClient.auth.signOut();
+      window.location.replace("cliente.html");
+      return;
+    }
+
+    currentUser = userData.user;
+
+    await loadProfile();
+    await loadServices();
+  }
+
+  // CARREGAR PERFIL DO CLIENTE
+
+  async function loadProfile() {
+    const { data, error } = await supabaseClient
+      .from("profiles")
+      .select("full_name, phone, referral_code, created_at")
+      .eq("id", currentUser.id)
+      .maybeSingle();
+
+    if (error) {
+      showStatus(
+        "profileStatus",
+        "Não foi possível carregar os dados do perfil. Verifique as políticas de acesso do Supabase.",
+        true
+      );
+      return;
+    }
+
+    if (!data) {
+      showStatus(
+        "profileStatus",
+        "O perfil ainda não está disponível. Contacte o administrador.",
+        true
+      );
+      return;
+    }
+
+    currentProfile = data;
+
+    document.getElementById("customerName").textContent =
+      data.full_name || "Cliente";
+
+    document.getElementById("profileName").textContent =
+      data.full_name || "Não informado";
+
+    document.getElementById("profilePhone").textContent =
+      data.phone || currentUser.phone || "Não informado";
+
+    document.getElementById("profileDate").textContent =
+      data.created_at
+        ? new Date(data.created_at).toLocaleDateString("pt-PT")
+        : "Não disponível";
+
+    document.getElementById("referralCode").textContent =
+      data.referral_code || "Não disponível";
+
+    showStatus(
+      "profileStatus",
+      "Dados da conta carregados com sucesso."
+    );
+  }
+
+  // COPIAR CÓDIGO DE CONVITE
+
+  document.getElementById("copyBtn").addEventListener(
+    "click",
+    async function() {
+      const code = currentProfile?.referral_code;
+
+      if (!code) {
+        alert("O código de convite ainda não está disponível.");
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(code);
+        this.textContent = "Copiado!";
+      } catch (error) {
+        alert("Não foi possível copiar automaticamente. Código: " + code);
+      }
+
+      setTimeout(() => {
+        this.textContent = "Copiar";
+      }, 2000);
+    }
+  );
+
+  // CARREGAR CATÁLOGO
+
+  async function loadServices() {
+    const list = document.getElementById("servicesList");
+
+    const { data, error } = await supabaseClient
+      .from("services")
+      .select("id, name, description, price_kz, image_url")
+      .eq("active", true)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      list.innerHTML = "";
+
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent =
+        "Não foi possível carregar o catálogo. Verifique as políticas de acesso.";
+      list.appendChild(empty);
+
+      showStatus("servicesStatus", error.message, true);
+      return;
+    }
+
+    list.innerHTML = "";
+
+    if (!data || data.length === 0) {
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent =
+        "Ainda não existem produtos ou serviços publicados. Volte mais tarde.";
+      list.appendChild(empty);
+
+      showStatus("servicesStatus", "");
+      return;
+    }
+
+    data.forEach(service => {
+      const card = document.createElement("article");
+      card.className = "service";
+
+      const title = document.createElement("h3");
+      title.textContent = service.name || "Produto ou serviço";
+
+      const description = document.createElement("p");
+      description.textContent =
+        service.description || "Consulte as condições deste produto ou serviço.";
+
+      const price = document.createElement("div");
+      price.className = "price";
+      price.textContent =
+        Number(service.price_kz).toLocaleString("pt-PT") + " Kz";
+
+      card.appendChild(title);
+      card.appendChild(description);
+      card.appendChild(price);
+
+      list.appendChild(card);
+    });
+
+    showStatus(
+      "servicesStatus",
+      "Catálogo actualizado."
+    );
+  }
+
+  // TERMINAR SESSÃO
+
+  document.getElementById("logoutBtn").addEventListener(
+    "click",
+    async function() {
+      this.disabled = true;
+      this.textContent = "A sair...";
+
+      const { error } = await supabaseClient.auth.signOut();
+
+      if (error) {
+        alert("Não foi possível terminar a sessão: " + error.message);
+        this.disabled = false;
+        this.textContent = "Terminar sessão";
+        return;
+      }
+
+      window.location.replace("cliente.html");
+    }
+  );
+
+  loadDashboard();
+</script>
+
+</body>
+</html>
