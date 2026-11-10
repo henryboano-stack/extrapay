@@ -2,578 +2,270 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#071b35">
-  <title>EXTRAPAY | Acesso do Cliente</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #071b35, #153d65);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 440px;
-      background: white;
-      padding: 30px 25px;
-      border-radius: 18px;
-      box-shadow: 0 15px 45px rgba(0,0,0,.2);
-    }
-
-    .logo {
-      text-align: center;
-      font-size: 30px;
-      font-weight: 900;
-      color: #071b35;
-      margin-bottom: 8px;
-    }
-
-    .logo span {
-      color: #13b981;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: #718096;
-      font-size: 13px;
-      margin-bottom: 25px;
-    }
-
-    .tabs {
-      display: flex;
-      background: #edf2f7;
-      padding: 5px;
-      border-radius: 10px;
-      margin-bottom: 23px;
-    }
-
-    .tabs button {
-      width: 50%;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      background: transparent;
-      color: #53657a;
-    }
-
-    .tabs button.active {
-      background: #071b35;
-      color: white;
-    }
-
-    .form {
-      display: none;
-    }
-
-    .form.active {
-      display: block;
-    }
-
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: bold;
-      color: #263b55;
-      margin: 14px 0 7px;
-    }
-
-    input {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #dce3eb;
-      border-radius: 9px;
-      outline: none;
-      font-size: 15px;
-    }
-
-    input:focus {
-      border-color: #13b981;
-      box-shadow: 0 0 0 2px rgba(19,185,129,.1);
-    }
-
-    .main-btn {
-      width: 100%;
-      margin-top: 22px;
-      padding: 15px;
-      border: none;
-      border-radius: 9px;
-      background: #13b981;
-      color: white;
-      font-weight: bold;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .main-btn:disabled {
-      opacity: .6;
-      cursor: wait;
-    }
-
-    .message {
-      display: none;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 13px;
-      line-height: 1.5;
-      margin-top: 15px;
-      overflow-wrap: anywhere;
-    }
-
-    .message.error {
-      display: block;
-      background: #fff0f0;
-      color: #b42318;
-    }
-
-    .message.success {
-      display: block;
-      background: #e8fff5;
-      color: #087443;
-    }
-
-    .back {
-      display: block;
-      text-align: center;
-      margin-top: 22px;
-      color: #071b35;
-      font-size: 13px;
-      text-decoration: none;
-    }
-
-    .note {
-      margin-top: 18px;
-      color: #7a8797;
-      font-size: 11px;
-      line-height: 1.5;
-      text-align: center;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EXTRAPAY - Acesso</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#071629;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.container{width:100%;max-width:430px;background:#10243b;padding:28px;border-radius:18px;box-shadow:0 10px 35px #0005}
+.logo{text-align:center;font-size:30px;font-weight:bold;color:#20d18b}
+.slogan{text-align:center;color:#c4d0dc;margin:8px 0 25px}
+.tabs{display:flex;gap:10px;margin-bottom:22px}
+.tabs button{flex:1;padding:12px;border:0;border-radius:9px;background:#243c55;color:white;font-weight:bold;cursor:pointer}
+.tabs button.active{background:#16a66d}
+label{display:block;margin:13px 0 7px;font-size:14px}
+input{width:100%;padding:14px;border-radius:9px;border:1px solid #40566e;background:#071629;color:white;font-size:16px;outline:none}
+input:focus{border-color:#20d18b}
+.mainbtn{width:100%;padding:15px;margin-top:22px;border:0;border-radius:9px;background:#16a66d;color:white;font-weight:bold;font-size:16px;cursor:pointer}
+.mainbtn:disabled{opacity:.6}
+.message{margin-top:15px;padding:12px;border-radius:8px;display:none;font-size:14px;line-height:1.5}
+.error{background:#572b32;color:#ffdce0}
+.success{background:#164c3b;color:#c9ffe5}
+a{color:#20d18b;text-decoration:none}
+.footer{text-align:center;color:#9eafc0;font-size:12px;line-height:1.6;margin-top:22px}
+.back{text-align:center;margin-top:18px}
+.hidden{display:none}
+</style>
 </head>
-
 <body>
 
-  <div class="container">
+<div class="container">
+  <div class="logo">EXTRAPAY</div>
+  <div class="slogan">Extra Income. More Opportunities.</div>
 
-    <div class="logo">EXTRA<span>PAY</span></div>
-
-    <p class="subtitle">
-      Extra Income. More Opportunities.
-    </p>
-
-    <div class="tabs">
-      <button id="loginTab" class="active" onclick="showForm('login')">
-        Entrar
-      </button>
-
-      <button id="registerTab" onclick="showForm('register')">
-        Criar conta
-      </button>
-    </div>
-
-    <!-- LOGIN -->
-
-    <form id="loginForm" class="form active">
-
-      <label>Número de telefone</label>
-      <input
-        type="tel"
-        id="loginPhone"
-        placeholder="+244 9XXXXXXXX"
-        autocomplete="tel"
-        required
-      >
-
-      <label>Palavra-passe</label>
-      <input
-        type="password"
-        id="loginPassword"
-        placeholder="Introduza a sua palavra-passe"
-        autocomplete="current-password"
-        required
-      >
-
-      <button type="submit" class="main-btn">
-        Iniciar sessão
-      </button>
-
-    </form>
-
-    <!-- CADASTRO -->
-
-    <form id="registerForm" class="form">
-
-      <label>Nome completo</label>
-      <input
-        type="text"
-        id="fullName"
-        placeholder="O seu nome completo"
-        autocomplete="name"
-        required
-      >
-
-      <label>Número de telefone</label>
-      <input
-        type="tel"
-        id="registerPhone"
-        placeholder="+244 9XXXXXXXX"
-        autocomplete="tel"
-        required
-      >
-
-      <label>Criar palavra-passe</label>
-      <input
-        type="password"
-        id="registerPassword"
-        placeholder="Mínimo de 8 caracteres"
-        minlength="8"
-        autocomplete="new-password"
-        required
-      >
-
-      <label>Confirmar palavra-passe</label>
-      <input
-        type="password"
-        id="confirmPassword"
-        placeholder="Repita a palavra-passe"
-        minlength="8"
-        autocomplete="new-password"
-        required
-      >
-
-      <label>Código de convite (opcional)</label>
-      <input
-        type="text"
-        id="referralCode"
-        placeholder="Código de quem o convidou"
-      >
-
-      <button type="submit" class="main-btn">
-        Criar minha conta
-      </button>
-
-    </form>
-
-    <div id="message" class="message"></div>
-
-    <a href="index.html" class="back">
-      ← Voltar à página inicial
-    </a>
-
-    <p class="note">
-      Proteja a sua palavra-passe. Nunca a partilhe com outras pessoas.
-      A EXTRAPAY não solicita o seu PIN bancário nem códigos de segurança.
-    </p>
-
+  <div class="tabs">
+    <button id="loginTab" class="active" onclick="showLogin()">Entrar</button>
+    <button id="registerTab" onclick="showRegister()">Criar conta</button>
   </div>
 
-  <script>
-    // CONFIGURAÇÃO SUPABASE
+  <form id="registerForm" class="hidden">
+    <label>Nome completo</label>
+    <input id="fullName" type="text" placeholder="Meu nome completo" required>
 
-    const SUPABASE_URL =
-      "https://cypuvaynypppvyuchghb.supabase.co";
+    <label>Número de telefone</label>
+    <input id="registerPhone" type="tel" placeholder="973 000 000" required>
 
-    const SUPABASE_KEY =
-      "sb_publishable_51-sjpu4VSt4SFa2ZgnoFw_Er-MdvOd";
+    <label>Criar palavra-passe</label>
+    <input id="registerPassword" type="password" placeholder="Mínimo de 6 caracteres" minlength="6" required>
 
-    const supabaseClient = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
+    <label>Confirmar palavra-passe</label>
+    <input id="confirmPassword" type="password" placeholder="Repetir palavra-passe" required>
 
-    // ALTERNAR ENTRE LOGIN E CADASTRO
+    <label>Código de convite (opcional)</label>
+    <input id="referralCode" type="text" placeholder="Código de quem o convidou">
 
-    function showForm(type) {
-      document.getElementById("loginForm").classList.toggle(
-        "active", type === "login"
+    <button class="mainbtn" id="registerButton" type="submit">Criar minha conta</button>
+  </form>
+
+  <form id="loginForm">
+    <label>Número de telefone</label>
+    <input id="loginPhone" type="tel" placeholder="973 000 000" required>
+
+    <label>Palavra-passe</label>
+    <input id="loginPassword" type="password" placeholder="A sua palavra-passe" required>
+
+    <button class="mainbtn" id="loginButton" type="submit">Entrar na minha conta</button>
+  </form>
+
+  <div id="message" class="message"></div>
+
+  <div class="back">
+    <a href="index.html">← Voltar à página inicial</a>
+  </div>
+
+  <div class="footer">
+    Proteja a sua palavra-passe. Nunca a partilhe com outras pessoas.
+    A EXTRAPAY não solicita o seu PIN bancário nem códigos de segurança.
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://cypuvaynypppvyuchghb.supabase.co";
+const SUPABASE_KEY = "sb_publishable_51-sjpu4VSt4SFa2ZgnoFw_Er-MdvOd";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+const registerForm = document.getElementById("registerForm");
+const loginForm = document.getElementById("loginForm");
+const messageBox = document.getElementById("message");
+
+function showMessage(message, type="error"){
+  messageBox.textContent = message;
+  messageBox.className = "message " + type;
+  messageBox.style.display = "block";
+}
+
+function hideMessage(){
+  messageBox.style.display = "none";
+}
+
+function showLogin(){
+  hideMessage();
+  loginForm.classList.remove("hidden");
+  registerForm.classList.add("hidden");
+  document.getElementById("loginTab").classList.add("active");
+  document.getElementById("registerTab").classList.remove("active");
+}
+
+function showRegister(){
+  hideMessage();
+  registerForm.classList.remove("hidden");
+  loginForm.classList.add("hidden");
+  document.getElementById("registerTab").classList.add("active");
+  document.getElementById("loginTab").classList.remove("active");
+}
+
+// Normalizar números angolanos
+function normalizePhone(value){
+  let digits = value.replace(/\D/g, "");
+
+  if(digits.startsWith("244") && digits.length === 12){
+    return "+" + digits;
+  }
+
+  if(digits.length === 9){
+    return "+244" + digits;
+  }
+
+  return null;
+}
+
+// Criar identificador interno a partir do telefone
+function createInternalEmail(phone){
+  const digits = phone.replace(/\D/g, "");
+  return "ang" + digits + "@extrapay-login.com";
+}
+
+// Verificar sessão existente
+async function checkSession(){
+  const {data, error} = await supabaseClient.auth.getSession();
+
+  if(!error && data.session){
+    window.location.href = "painel.html";
+  }
+}
+checkSession();
+
+// REGISTO
+registerForm.addEventListener("submit", async function(e){
+  e.preventDefault();
+  hideMessage();
+
+  const name = document.getElementById("fullName").value.trim();
+  const phone = normalizePhone(
+    document.getElementById("registerPhone").value
+  );
+  const password = document.getElementById("registerPassword").value;
+  const confirm = document.getElementById("confirmPassword").value;
+  const referral = document.getElementById("referralCode").value.trim();
+
+  if(!name){
+    showMessage("Introduza o seu nome completo.");
+    return;
+  }
+
+  if(!phone){
+    showMessage("Introduza um número angolano válido com 9 dígitos ou indicativo +244.");
+    return;
+  }
+
+  if(password.length < 6){
+    showMessage("A palavra-passe deve ter pelo menos 6 caracteres.");
+    return;
+  }
+
+  if(password !== confirm){
+    showMessage("As palavras-passe não coincidem.");
+    return;
+  }
+
+  const button = document.getElementById("registerButton");
+  button.disabled = true;
+  button.textContent = "A criar conta...";
+
+  try{
+    const internalEmail = createInternalEmail(phone);
+
+    const {data, error} = await supabaseClient.auth.signUp({
+      email: internalEmail,
+      password: password,
+      options:{
+        data:{
+          full_name: name,
+          phone: phone,
+          referral_code: referral
+        }
+      }
+    });
+
+    if(error) throw error;
+
+    if(!data.session){
+      showMessage(
+        "A conta foi criada, mas não foi iniciada sessão. Verifique se a confirmação de e-mail está desactivada no Supabase.",
+        "error"
       );
-
-      document.getElementById("registerForm").classList.toggle(
-        "active", type === "register"
-      );
-
-      document.getElementById("loginTab").classList.toggle(
-        "active", type === "login"
-      );
-
-      document.getElementById("registerTab").classList.toggle(
-        "active", type === "register"
-      );
-
-      clearMessage();
+      return;
     }
 
-    function showMessage(text, type) {
-      const message = document.getElementById("message");
-
-      message.textContent = text;
-      message.className = "message " + type;
-    }
-
-    function clearMessage() {
-      const message = document.getElementById("message");
-      message.textContent = "";
-      message.className = "message";
-    }
-
-    function normalizePhone(value) {
-      let phone = value.trim().replace(/[\s()-]/g, "");
-
-      if (phone.startsWith("00")) {
-        phone = "+" + phone.slice(2);
-      }
-
-      if (/^9\d{8}$/.test(phone)) {
-        phone = "+244" + phone;
-      }
-
-      return phone;
-    }
-
-    function isValidPhone(phone) {
-      return /^\+[1-9]\d{7,14}$/.test(phone);
-    }
-
-    function setLoading(formId, loading, text) {
-      const button = document.querySelector(
-        "#" + formId + " button[type='submit']"
-      );
-
-      button.disabled = loading;
-
-      if (loading) {
-        button.textContent = "Aguarde...";
-      } else {
-        button.textContent = text;
-      }
-    }
-
-    // CADASTRO
-
-    document.getElementById("registerForm").addEventListener(
-      "submit",
-      async function(event) {
-
-        event.preventDefault();
-        clearMessage();
-
-        const fullName = document.getElementById(
-          "fullName"
-        ).value.trim();
-
-        const phone = normalizePhone(
-          document.getElementById("registerPhone").value
-        );
-
-        const password = document.getElementById(
-          "registerPassword"
-        ).value;
-
-        const confirmPassword = document.getElementById(
-          "confirmPassword"
-        ).value;
-
-        const referralCode = document.getElementById(
-          "referralCode"
-        ).value.trim().toUpperCase();
-
-        if (fullName.length < 3) {
-          return showMessage(
-            "Introduza o seu nome completo.",
-            "error"
-          );
-        }
-
-        if (!isValidPhone(phone)) {
-          return showMessage(
-            "Introduza um número válido com indicativo internacional, por exemplo +244.",
-            "error"
-          );
-        }
-
-        if (password.length < 8) {
-          return showMessage(
-            "A palavra-passe deve ter pelo menos 8 caracteres.",
-            "error"
-          );
-        }
-
-        if (password !== confirmPassword) {
-          return showMessage(
-            "As palavras-passe não coincidem.",
-            "error"
-          );
-        }
-
-        setLoading(
-          "registerForm",
-          true,
-          "Criar minha conta"
-        );
-
-        try {
-
-          const { data, error } =
-            await supabaseClient.auth.signUp({
-
-              phone: phone,
-
-              password: password,
-
-              options: {
-                data: {
-                  full_name: fullName,
-                  phone: phone,
-                  referral_code: referralCode || null
-                }
-              }
-
-            });
-
-          if (error) throw error;
-
-          if (!data.session) {
-            showMessage(
-              "O cadastro foi iniciado, mas a sessão não foi criada. Verifique se a confirmação de telefone está desactivada no Supabase.",
-              "error"
-            );
-
-            return;
-          }
-
-          showMessage(
-            "Conta criada com sucesso! A preparar o seu painel...",
-            "success"
-          );
-
-          setTimeout(function() {
-            window.location.href = "painel.html";
-          }, 1200);
-
-        } catch(error) {
-
-          showMessage(
-            "Erro no cadastro: " + error.message,
-            "error"
-          );
-
-        } finally {
-
-          setLoading(
-            "registerForm",
-            false,
-            "Criar minha conta"
-          );
-
-        }
-
-      }
-    );
-
-    // INICIAR SESSÃO
-
-    document.getElementById("loginForm").addEventListener(
-      "submit",
-      async function(event) {
-
-        event.preventDefault();
-        clearMessage();
-
-        const phone = normalizePhone(
-          document.getElementById("loginPhone").value
-        );
-
-        const password = document.getElementById(
-          "loginPassword"
-        ).value;
-
-        if (!isValidPhone(phone)) {
-          return showMessage(
-            "Introduza um número válido com indicativo internacional.",
-            "error"
-          );
-        }
-
-        setLoading(
-          "loginForm",
-          true,
-          "Iniciar sessão"
-        );
-
-        try {
-
-          const { data, error } =
-            await supabaseClient.auth.signInWithPassword({
-
-              phone: phone,
-              password: password
-
-            });
-
-          if (error) throw error;
-
-          if (!data.session) {
-            throw new Error("Não foi possível iniciar a sessão.");
-          }
-
-          showMessage(
-            "Acesso autorizado! A abrir o painel...",
-            "success"
-          );
-
-          setTimeout(function() {
-            window.location.href = "painel.html";
-          }, 1000);
-
-        } catch(error) {
-
-          showMessage(
-            "Não foi possível entrar: " + error.message,
-            "error"
-          );
-
-        } finally {
-
-          setLoading(
-            "loginForm",
-            false,
-            "Iniciar sessão"
-          );
-
-        }
-
-      }
-    );
-
-    // VERIFICAR SE JÁ EXISTE UMA SESSÃO
-
-    async function checkSession() {
-      const { data } = await supabaseClient.auth.getSession();
-
-      if (data.session) {
-        window.location.href = "painel.html";
-      }
-    }
-
-    checkSession();
-
-  </script>
+    showMessage("Conta criada com sucesso! A entrar...", "success");
+
+    setTimeout(function(){
+      window.location.href = "painel.html";
+    }, 1200);
+
+  }catch(error){
+    showMessage("Erro no cadastro: " + error.message);
+  }finally{
+    button.disabled = false;
+    button.textContent = "Criar minha conta";
+  }
+});
+
+// LOGIN
+loginForm.addEventListener("submit", async function(e){
+  e.preventDefault();
+  hideMessage();
+
+  const phone = normalizePhone(
+    document.getElementById("loginPhone").value
+  );
+  const password = document.getElementById("loginPassword").value;
+
+  if(!phone){
+    showMessage("Introduza um número angolano válido.");
+    return;
+  }
+
+  const button = document.getElementById("loginButton");
+  button.disabled = true;
+  button.textContent = "A verificar...";
+
+  try{
+    const internalEmail = createInternalEmail(phone);
+
+    const {data, error} = await supabaseClient.auth.signInWithPassword({
+      email: internalEmail,
+      password: password
+    });
+
+    if(error) throw error;
+
+    window.location.href = "painel.html";
+
+  }catch(error){
+    showMessage("Erro no acesso: " + error.message);
+  }finally{
+    button.disabled = false;
+    button.textContent = "Entrar na minha conta";
+  }
+});
+</script>
 
 </body>
 </html>
