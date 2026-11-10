@@ -1,0 +1,465 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#071b35">
+  <meta name="description" content="EXTRAPAY - Plataforma de produtos, tecnologia e serviços.">
+  <title>EXTRAPAY | Mais oportunidades</title>
+
+  <style>
+    :root {
+      --navy: #071b35;
+      --navy2: #102b4e;
+      --green: #13b981;
+      --gold: #f4bd45;
+      --white: #ffffff;
+      --light: #f3f6fa;
+      --muted: #aebbd0;
+      --text: #172b45;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--light);
+      color: var(--text);
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    header {
+      background: var(--navy);
+      color: white;
+      padding: 17px 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: var(--green);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 23px;
+    }
+
+    nav a {
+      color: white;
+      font-size: 14px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 13px 21px;
+      border-radius: 9px;
+      font-weight: bold;
+      text-align: center;
+      transition: .2s;
+    }
+
+    .btn-green {
+      background: var(--green);
+      color: white;
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .btn-outline {
+      border: 1px solid white;
+      color: white;
+    }
+
+    .btn:hover {
+      opacity: .85;
+      transform: translateY(-2px);
+    }
+
+    .hero {
+      background: linear-gradient(120deg, #071b35, #153d65);
+      color: white;
+      padding: 85px 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 35px;
+      min-height: 440px;
+    }
+
+    .hero-content {
+      max-width: 620px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: rgba(19,185,129,.16);
+      color: #55e3b2;
+      padding: 8px 13px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: clamp(35px, 5vw, 58px);
+      line-height: 1.12;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      color: var(--gold);
+    }
+
+    .hero p {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 16px;
+      margin-bottom: 27px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero-art {
+      width: 310px;
+      height: 260px;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 25px;
+      background: rgba(255,255,255,.07);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      text-align: center;
+    }
+
+    .hero-art .symbol {
+      font-size: 90px;
+    }
+
+    .hero-art strong {
+      font-size: 22px;
+      color: var(--gold);
+    }
+
+    section {
+      padding: 65px 6%;
+    }
+
+    .section-heading {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .section-heading h2 {
+      font-size: 30px;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .section-heading p {
+      color: #69788c;
+      line-height: 1.6;
+    }
+
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .category {
+      background: white;
+      padding: 30px 20px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(7,27,53,.05);
+    }
+
+    .category .icon {
+      font-size: 45px;
+      margin-bottom: 15px;
+    }
+
+    .category h3 {
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .category p {
+      color: #718096;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .how {
+      background: white;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .step {
+      padding: 25px;
+      border: 1px solid #e6ebf1;
+      border-radius: 14px;
+    }
+
+    .number {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--green);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .step h3 {
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .step p {
+      color: #718096;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .cta {
+      background: var(--navy2);
+      color: white;
+      text-align: center;
+      padding: 65px 20px;
+    }
+
+    .cta h2 {
+      font-size: 30px;
+      margin-bottom: 15px;
+    }
+
+    .cta p {
+      color: var(--muted);
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+
+    footer {
+      background: #041326;
+      color: white;
+      text-align: center;
+      padding: 30px 15px;
+    }
+
+    footer p {
+      color: #aebbd0;
+      font-size: 13px;
+      line-height: 1.8;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 750px) {
+      header {
+        flex-wrap: wrap;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 60px 6%;
+      }
+
+      .hero-buttons {
+        justify-content: center;
+      }
+
+      .hero-art {
+        width: 100%;
+        max-width: 310px;
+      }
+
+      .categories,
+      .steps {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <a href="index.html" class="logo">
+      EXTRA<span>PAY</span>
+    </a>
+
+    <nav>
+      <a href="#inicio">Início</a>
+      <a href="#categorias">Produtos</a>
+      <a href="#funcionamento">Como funciona</a>
+      <a href="cliente.html">Minha conta</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="hero-content">
+        <span class="tag">TECNOLOGIA • PRODUTOS • OPORTUNIDADES</span>
+
+        <h1>
+          Bem-vindo à <span>EXTRAPAY</span>
+        </h1>
+
+        <p>
+          Uma plataforma digital dedicada à apresentação
+          de produtos e serviços, aproximando clientes
+          de novas oportunidades no mundo da tecnologia.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="cliente.html" class="btn btn-green">
+            Criar minha conta
+          </a>
+
+          <a href="cliente.html" class="btn btn-outline">
+            Iniciar sessão
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-art">
+        <div class="symbol">📱</div>
+        <strong>EXTRAPAY</strong>
+        <span>Extra Income. More Opportunities.</span>
+      </div>
+    </section>
+
+    <section id="categorias">
+      <div class="section-heading">
+        <h2>Explore as nossas categorias</h2>
+        <p>Descubra produtos e serviços disponíveis na plataforma.</p>
+      </div>
+
+      <div class="categories">
+        <div class="category">
+          <div class="icon">📱</div>
+          <h3>Smartphones</h3>
+          <p>Telemóveis Android, iPhones e acessórios.</p>
+        </div>
+
+        <div class="category">
+          <div class="icon">💻</div>
+          <h3>Informática</h3>
+          <p>Computadores, SSDs, cartões de memória e equipamentos.</p>
+        </div>
+
+        <div class="category">
+          <div class="icon">🎧</div>
+          <h3>Acessórios</h3>
+          <p>Equipamentos e acessórios tecnológicos.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="how" id="funcionamento">
+      <div class="section-heading">
+        <h2>Como funciona?</h2>
+        <p>Uma experiência simples e organizada.</p>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="number">1</div>
+          <h3>Crie a sua conta</h3>
+          <p>Registe-se na plataforma e tenha acesso à sua área pessoal.</p>
+        </div>
+
+        <div class="step">
+          <div class="number">2</div>
+          <h3>Explore os produtos</h3>
+          <p>Consulte os produtos, preços e condições disponíveis.</p>
+        </div>
+
+        <div class="step">
+          <div class="number">3</div>
+          <h3>Faça a sua encomenda</h3>
+          <p>Siga as instruções de pagamento e acompanhe o estado do pedido.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <h2>Faça parte da EXTRAPAY</h2>
+      <p>
+        Crie a sua conta e acompanhe as novidades
+        e os produtos disponíveis.
+      </p>
+
+      <a href="cliente.html" class="btn btn-gold">
+        Começar agora
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    <div class="logo">EXTRA<span>PAY</span></div>
+
+    <p>Extra Income. More Opportunities.</p>
+
+    <p>
+      © <span id="year"></span> EXTRAPAY.
+      Todos os direitos reservados.
+    </p>
+
+    <p>
+      Os produtos e serviços estão sujeitos à disponibilidade
+      e às respectivas condições comerciais.
+    </p>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+  </script>
+
+</body>
+</html>
